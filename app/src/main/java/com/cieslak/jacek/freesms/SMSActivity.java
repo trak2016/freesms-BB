@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cieslak.jacek.freesms.apiservices.RestClient;
 import com.cieslak.jacek.freesms.model.SMS;
 import com.cieslak.jacek.freesms.view.RoundedLetterView;
 import com.loopj.android.http.AsyncHttpClient;
@@ -41,6 +42,7 @@ public class SMSActivity extends AppCompatActivity {
     private Button sendMessage;
     private SMS sms;
     private JSONObject jsonObject;
+    private RestClient restClient = RestClient.getInstance();
 
     private ProgressDialog prgDialog;
 
@@ -79,19 +81,19 @@ public class SMSActivity extends AppCompatActivity {
                 if (telNumber != null)
 //                    Toast.makeText(getApplicationContext(), "Phone number: " + telNumber,Toast.LENGTH_LONG).show();
                     sms = new SMS(String.valueOf(mNumberTo.getText()), String.valueOf(mNumberTo.getText()),String.valueOf(mMessage.getText()),0);
-
-                jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("numberTo",sms.getNumberTo());
-                    jsonObject.put("numberFrom",sms.getNumberFrom());
-                    jsonObject.put("message",sms.getMessage());
-                    jsonObject.put("Date",sms.getDate());
-                    invokeWS(jsonObject);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+                 restClient.createUser(getApplication(),sms);
+//                jsonObject = new JSONObject();
+//                try {
+//                    jsonObject.put("numberTo",sms.getNumberTo());
+//                    jsonObject.put("numberFrom",sms.getNumberFrom());
+//                    jsonObject.put("message",sms.getMessage());
+//                    jsonObject.put("Date",sms.getDate());
+//                    invokeWS(jsonObject);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
 
             }
         });
